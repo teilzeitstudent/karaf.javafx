@@ -1,2 +1,4 @@
 /karaf/data
 /karaf/instances/
+
+karaf/etc/host\.key
