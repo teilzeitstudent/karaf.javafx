@@ -59,7 +59,7 @@ public class JavaxExample extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				LOGGER.info("Hello World!");
+				listView.getSelectionModel().getSelectedItem().printGreeting();
 			}
 		});
 
