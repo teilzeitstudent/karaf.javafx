@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.teilzeitstudent</groupId>
+	<artifactId>karafjavafx.kar</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+    <packaging>kar</packaging>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.karaf.tooling</groupId>
+                <artifactId>karaf-maven-plugin</artifactId>
+                <version>4.0.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <includeTransitiveDependency>true</includeTransitiveDependency>
+                    <featuresFile>../${project.groupId}.karafjavafx.feature/target/features/features.xml</featuresFile>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
