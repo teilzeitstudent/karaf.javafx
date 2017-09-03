@@ -1,0 +1,4 @@
+/karaf/data
+/karaf/instances/
+/karaf/deploy/
+karaf/etc/host\.key
