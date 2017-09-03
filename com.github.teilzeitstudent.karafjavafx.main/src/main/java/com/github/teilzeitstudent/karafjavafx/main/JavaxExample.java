@@ -1,22 +1,20 @@
 package com.github.teilzeitstudent.karafjavafx.main;
 
 
+import java.util.concurrent.Executors;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import javafx.application.Application;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class JavaxExample extends Application implements BundleActivator {
-	public static void main(String[] args) {
-        launch(args);
-    }
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Hello World!");
@@ -38,12 +36,14 @@ public class JavaxExample extends Application implements BundleActivator {
 
 	@Override
 	public void start(BundleContext context) throws Exception {
-		// Hack the classloader. Otherwise will run into
-		// java.lang.ClassNotFoundException: com.github.teilzeitstudent.karafjavafx.main.JavaxExample
-		// with origin in javafx.application.Application.launch(Application.java:248)
-		// see http://paulonjava.blogspot.co.uk/2014/11/making-javafx-better-with-osgi.html
-		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-		launch();
+		Executors.defaultThreadFactory().newThread(() -> {
+			// Hack the classloader. Otherwise will run into
+			// java.lang.ClassNotFoundException: com.github.teilzeitstudent.karafjavafx.main.JavaxExample
+			// with origin in javafx.application.Application.launch(Application.java:248)
+			// see http://paulonjava.blogspot.co.uk/2014/11/making-javafx-better-with-osgi.html
+			Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+			launch();
+		}).start();
 		System.out.println("Start");
 	}
 
