@@ -37,7 +37,7 @@
 					<instructions>
 						<Bundle-SymbolicName>com.github.teilzeitstudent.karafjavafx.greetings.spi</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
-						<Export-Package></Export-Package>
+						<Export-Package>*</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>
