@@ -1,5 +1,6 @@
 package com.github.teilzeitstudent.karafjavafx.main;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -32,8 +33,8 @@ import javafx.stage.WindowEvent;
 @Component
 public class JavaxExample extends Application {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JavaxExample.class);
-	private ListView<String> listView;
-	private ObservableList<String> listViewContent;
+	private ListView<GreetingsService> listView;
+	private ObservableList<GreetingsService> listViewContent;
 	
 	private List<GreetingsService> greetings;
 
@@ -41,8 +42,12 @@ public class JavaxExample extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Hello World!");
 		
-		listView = new ListView<String>();
-		listViewContent = FXCollections.observableArrayList ("Single", "Double", "Suite", "Family App");
+		if (greetings == null) {
+			greetings = new ArrayList<GreetingsService>();
+		}
+		
+		listView = new ListView<GreetingsService>();
+		listViewContent = FXCollections.observableArrayList (greetings);
 		listView.setItems(listViewContent);
 		Button btn = new Button();
 		btn.setText("Say 'Hello World'");
