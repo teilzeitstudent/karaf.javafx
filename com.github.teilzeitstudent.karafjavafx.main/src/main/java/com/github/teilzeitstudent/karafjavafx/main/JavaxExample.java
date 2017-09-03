@@ -44,6 +44,10 @@ public class JavaxExample extends Application {
 		
 		if (greetings == null) {
 			greetings = new ArrayList<GreetingsService>();
+			// add some fake services for manual testing
+			// They can not be set from caller, because JavaFX will create a new instance
+			// Have to use comments to create this during manual tests...
+			addFakeServices();
 		}
 		
 		listView = new ListView<GreetingsService>();
@@ -112,6 +116,26 @@ public class JavaxExample extends Application {
 	@Reference(cardinality=ReferenceCardinality.AT_LEAST_ONE)
 	public void setGreetings(List<GreetingsService> greetings) {
 		this.greetings = greetings;
+	}
+	
+	private void addFakeServices() {
+		greetings.add(new GreetingsService() {
+			
+			@Override
+			public void printGreeting() {
+				LOGGER.info("Hi");
+				
+			}
+		});
+		
+		greetings.add(new GreetingsService() {
+			
+			@Override
+			public void printGreeting() {
+				LOGGER.info("Hello");
+				
+			}
+		});
 	}
 
 }
