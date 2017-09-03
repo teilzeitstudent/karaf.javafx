@@ -4,9 +4,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +21,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class JavaxExample extends Application implements BundleActivator {
+@Component
+public class JavaxExample extends Application {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JavaxExample.class);
 
 	@Override
@@ -42,7 +45,7 @@ public class JavaxExample extends Application implements BundleActivator {
 		primaryStage.show();
 	}
 
-	@Override
+	@Activate
 	public void start(BundleContext context) throws Exception {
 		LOGGER.trace(">> start");
 		Executors.defaultThreadFactory().newThread(() -> {
@@ -59,7 +62,7 @@ public class JavaxExample extends Application implements BundleActivator {
 		LOGGER.trace("<< start");
 	}
 
-	@Override
+	@Deactivate
 	public void stop(BundleContext context) throws Exception {
 		LOGGER.trace(">> stop");
 		LOGGER.trace("<< stop");

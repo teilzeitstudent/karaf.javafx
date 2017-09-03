@@ -39,7 +39,7 @@
 						<Import-Package>*</Import-Package>
 						<Export-Package></Export-Package>
 						<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
-						<Bundle-Activator>com.github.teilzeitstudent.karafjavafx.main.JavaxExample</Bundle-Activator>
+						<Service-Component>*</Service-Component>
 					</instructions>
 				</configuration>
 			</plugin>
