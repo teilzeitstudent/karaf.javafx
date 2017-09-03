@@ -47,7 +47,7 @@ public class JavaxExample extends Application {
 			// add some fake services for manual testing
 			// They can not be set from caller, because JavaFX will create a new instance
 			// Have to use comments to create this during manual tests...
-			addFakeServices();
+			//addFakeServices();
 		}
 		
 		listView = new ListView<GreetingsService>();
