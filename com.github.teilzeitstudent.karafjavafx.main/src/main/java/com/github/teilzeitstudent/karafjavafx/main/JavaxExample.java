@@ -5,6 +5,8 @@ import java.util.concurrent.Executors;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -15,6 +17,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class JavaxExample extends Application implements BundleActivator {
+	private static final Logger LOGGER = LoggerFactory.getLogger(JavaxExample.class);
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Hello World!");
@@ -24,7 +28,7 @@ public class JavaxExample extends Application implements BundleActivator {
  
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
+                LOGGER.info("Hello World!");
             }
         });
         
@@ -36,20 +40,23 @@ public class JavaxExample extends Application implements BundleActivator {
 
 	@Override
 	public void start(BundleContext context) throws Exception {
+		LOGGER.trace(">> start");
 		Executors.defaultThreadFactory().newThread(() -> {
 			// Hack the classloader. Otherwise will run into
 			// java.lang.ClassNotFoundException: com.github.teilzeitstudent.karafjavafx.main.JavaxExample
 			// with origin in javafx.application.Application.launch(Application.java:248)
 			// see http://paulonjava.blogspot.co.uk/2014/11/making-javafx-better-with-osgi.html
 			Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+			LOGGER.debug("Launching application...");
 			launch();
 		}).start();
-		System.out.println("Start");
+		LOGGER.trace("<< start");
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
-		System.out.println("Stop");
+		LOGGER.trace(">> stop");
+		LOGGER.trace("<< stop");
 	}
 
 }
