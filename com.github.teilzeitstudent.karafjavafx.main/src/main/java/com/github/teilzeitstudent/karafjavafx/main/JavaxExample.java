@@ -1,5 +1,6 @@
 package com.github.teilzeitstudent.karafjavafx.main;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
@@ -9,8 +10,12 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.github.teilzeitstudent.karafjavafx.greetings.spi.GreetingsService;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -29,6 +34,8 @@ public class JavaxExample extends Application {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JavaxExample.class);
 	private ListView<String> listView;
 	private ObservableList<String> listViewContent;
+	
+	private List<GreetingsService> greetings;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -92,5 +99,14 @@ public class JavaxExample extends Application {
 			});
 		}
 	};
+
+	public List<GreetingsService> getGreetings() {
+		return greetings;
+	}
+
+	@Reference(cardinality=ReferenceCardinality.AT_LEAST_ONE)
+	public void setGreetings(List<GreetingsService> greetings) {
+		this.greetings = greetings;
+	}
 
 }
