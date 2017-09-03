@@ -13,10 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -24,10 +27,16 @@ import javafx.stage.WindowEvent;
 @Component
 public class JavaxExample extends Application {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JavaxExample.class);
+	private ListView<String> listView;
+	private ObservableList<String> listViewContent;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		primaryStage.setTitle("Hello World!");
+		
+		listView = new ListView<String>();
+		listViewContent = FXCollections.observableArrayList ("Single", "Double", "Suite", "Family App");
+		listView.setItems(listViewContent);
 		Button btn = new Button();
 		btn.setText("Say 'Hello World'");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -39,6 +48,7 @@ public class JavaxExample extends Application {
 		});
 
 		StackPane root = new StackPane();
+		root.getChildren().add(listView);
 		root.getChildren().add(btn);
 		primaryStage.setScene(new Scene(root, 300, 250));
 		primaryStage.setOnCloseRequest(onClose);
