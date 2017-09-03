@@ -126,6 +126,13 @@ public class JavaxExample extends Application {
 				LOGGER.info("Hi");
 				
 			}
+
+			@Override
+			public String toString() {
+				return "Service A";
+			}
+			
+			
 		});
 		
 		greetings.add(new GreetingsService() {
@@ -134,6 +141,11 @@ public class JavaxExample extends Application {
 			public void printGreeting() {
 				LOGGER.info("Hello");
 				
+			}
+			
+			@Override
+			public String toString() {
+				return "Service B";
 			}
 		});
 	}
