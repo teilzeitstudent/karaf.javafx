@@ -38,6 +38,12 @@ public class JavaxExample extends Application implements BundleActivator {
 
 	@Override
 	public void start(BundleContext context) throws Exception {
+		// Hack the classloader. Otherwise will run into
+		// java.lang.ClassNotFoundException: com.github.teilzeitstudent.karafjavafx.main.JavaxExample
+		// with origin in javafx.application.Application.launch(Application.java:248)
+		// see http://paulonjava.blogspot.co.uk/2014/11/making-javafx-better-with-osgi.html
+		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+		launch();
 		System.out.println("Start");
 	}
 
