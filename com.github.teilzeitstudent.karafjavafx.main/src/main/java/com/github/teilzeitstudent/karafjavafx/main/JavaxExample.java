@@ -1,6 +1,8 @@
 package com.github.teilzeitstudent.karafjavafx.main;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -8,11 +10,11 @@ import java.util.concurrent.Executors;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +42,8 @@ public class JavaxExample extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		LOGGER.trace(">> start");
+		findServicesInRegistry();
 		primaryStage.setTitle("Hello World!");
 		
 		if (greetings == null) {
@@ -59,7 +63,10 @@ public class JavaxExample extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				listView.getSelectionModel().getSelectedItem().printGreeting();
+				LOGGER.trace("Pressed button...");
+				if (listView.getSelectionModel().getSelectedItem() != null) {
+					listView.getSelectionModel().getSelectedItem().printGreeting();
+				}
 			}
 		});
 
@@ -69,11 +76,33 @@ public class JavaxExample extends Application {
 		primaryStage.setScene(new Scene(root, 300, 250));
 		primaryStage.setOnCloseRequest(onClose);
 		primaryStage.show();
+		LOGGER.trace("<< start");
+	}
+	
+	private void findServicesInRegistry() throws InvalidSyntaxException {
+		LOGGER.trace(">> findServicesInRegistry");
+		
+		final BundleContext bundleContext = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+		Collection<ServiceReference<GreetingsService>> services = bundleContext.getServiceReferences(GreetingsService.class, null);
+		LOGGER.debug("Found {} greeting services", services.size());
+		
+		if (greetings == null) {
+			greetings = new ArrayList<GreetingsService>();
+		}
+		
+		for (Iterator<ServiceReference<GreetingsService>> iterator = services.iterator(); iterator.hasNext();) {
+			ServiceReference<GreetingsService> serviceReference = iterator.next();
+			LOGGER.debug("Adding service from bundle {}", serviceReference.getBundle().getBundleId());
+			GreetingsService service = bundleContext.getService(serviceReference);
+			greetings.add(service);
+		}
+		
+		LOGGER.trace("<< findServicesInRegistry");
 	}
 
 	@Activate
-	public void start(BundleContext context) throws Exception {
-		LOGGER.trace(">> start");
+	public void activate(BundleContext context) throws Exception {
+		LOGGER.trace(">> activate");
 		Executors.defaultThreadFactory().newThread(() -> {
 			// Hack the classloader. Otherwise will run into
 			// java.lang.ClassNotFoundException:
@@ -85,7 +114,7 @@ public class JavaxExample extends Application {
 			LOGGER.debug("Launching application...");
 			launch();
 		}).start();
-		LOGGER.trace("<< start");
+		LOGGER.trace("<< activate");
 	}
 
 	@Deactivate
@@ -108,17 +137,8 @@ public class JavaxExample extends Application {
 			});
 		}
 	};
-
-	public List<GreetingsService> getGreetings() {
-		return greetings;
-	}
-
-	@Reference(cardinality=ReferenceCardinality.AT_LEAST_ONE)
-	public void setGreetings(List<GreetingsService> greetings) {
-		this.greetings = greetings;
-	}
 	
-	private void addFakeServices() {
+	protected void addFakeServices() {
 		greetings.add(new GreetingsService() {
 			
 			@Override
