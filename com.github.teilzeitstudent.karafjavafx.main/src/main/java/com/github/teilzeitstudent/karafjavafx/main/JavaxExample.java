@@ -1,9 +1,12 @@
 package com.github.teilzeitstudent.karafjavafx.main;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class JavaxExample extends Application implements BundleActivator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(JavaxExample.class);
@@ -34,6 +38,7 @@ public class JavaxExample extends Application implements BundleActivator {
 		StackPane root = new StackPane();
 		root.getChildren().add(btn);
 		primaryStage.setScene(new Scene(root, 300, 250));
+		primaryStage.setOnCloseRequest(onClose);
 		primaryStage.show();
 	}
 
@@ -59,5 +64,20 @@ public class JavaxExample extends Application implements BundleActivator {
 		LOGGER.trace(">> stop");
 		LOGGER.trace("<< stop");
 	}
+	
+	private final EventHandler<WindowEvent> onClose = (WindowEvent event) -> {
+		if (event.getEventType().equals(WindowEvent.WINDOW_CLOSE_REQUEST)) {
+			LOGGER.info("Recieved close event from UI");
+			CompletableFuture.runAsync(() -> {
+				try {
+					BundleContext bc = FrameworkUtil.getBundle(JavaxExample.class).getBundleContext();
+					Bundle bundle = bc.getBundle(0);
+					bundle.stop();
+				} catch (Exception e) {
+					System.err.println("Error when shutting down Apache Karaf");
+				}
+			});
+		}
+	};
 
 }
