@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+	<feature name="${project.artifactId}" version="${project.version}" install="auto">
+		<!-- The dependencies  -->
+		<bundle>mvn:${project.groupId}/karafjavafx.greetings.spi/${spi-service-version}</bundle>
+		<bundle>mvn:${project.groupId}/karafjavafx.greetings.english/${english-service-version}</bundle>
+		<bundle>mvn:${project.groupId}/karafjavafx.greetings.german/${german-service-version}</bundle>
+		
+		<!-- Actual application -->
+		<bundle>mvn:${project.groupId}/karafjavafx.main/${main-version}</bundle>
+	</feature>
+</features>
