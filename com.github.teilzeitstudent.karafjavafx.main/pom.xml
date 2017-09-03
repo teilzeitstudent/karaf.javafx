@@ -37,6 +37,9 @@
 					<instructions>
 						<Bundle-SymbolicName>com.github.teilzeitstudent.karafjavafx.main</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
+						<Export-Package></Export-Package>
+						<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
+						<Bundle-Activator>com.github.teilzeitstudent.karafjavafx.main.JavaxExample</Bundle-Activator>
 					</instructions>
 				</configuration>
 			</plugin>
