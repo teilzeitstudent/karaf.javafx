@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.teilzeitstudent</groupId>
-	<artifactId>karafjavafx.main</artifactId>
+	<artifactId>karafjavafx.greetings.german</artifactId>
 	<packaging>bundle</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 
@@ -35,7 +35,7 @@
 				</executions>
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>com.github.teilzeitstudent.karafjavafx.main</Bundle-SymbolicName>
+						<Bundle-SymbolicName>com.github.teilzeitstudent.karafjavafx.greetings.german</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
 						<Export-Package></Export-Package>
 						<Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
@@ -72,19 +72,6 @@
 			<groupId>com.github.teilzeitstudent</groupId>
 			<artifactId>karafjavafx.greetings.spi</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.1.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.1.2</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
